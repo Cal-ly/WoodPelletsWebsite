@@ -1,0 +1,80 @@
+<div id="app" class="container mt-5">
+    <h1 class="text-center">Wood Pellets</h1>
+    
+    <!-- Add Wood Pellet Form -->
+    <form @submit.prevent="addWoodPellet" class="mb-4">
+        <div class="mb-3">
+            <label for="brand" class="form-label">Brand</label>
+            <input type="text" v-model="newWoodPellet.brand" class="form-control" id="brand" required>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" v-model="newWoodPellet.price" class="form-control" id="price" required>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" v-model="newWoodPellet.quantity" class="form-control" id="quantity" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Wood Pellet</button>
+    </form>
+
+    <!-- Display Wood Pellets -->
+    <ul class="list-group">
+        <li v-for="woodPellet in woodPellets" :key="woodPellet.id" class="list-group-item d-flex justify-content-between align-items-center">
+            <p>{{ woodPellet.brand }} - {{ woodPellet.price }} (Qty: {{ woodPellet.quantity }})</p>
+            <button class="btn btn-danger" @click="deleteWoodPellet(woodPellet.id)">Delete</button>
+        </li>
+    </ul>
+</div>
+
+const app = Vue.createApp({
+    el: '#app',
+    data: {
+        woodPellets: [],
+        newWoodPellet: {
+            id: 0,
+            brand: '',
+            price: 0,
+            quantity: 0
+        }
+    },
+    created() {
+        this.getWoodPellets();
+    },
+    methods: {
+        getWoodPellets() {
+            axios.get('https://restwoodpellets2024.azurewebsites.net/api/woodpellet')
+                .then(response => {
+                    this.woodPellets = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching wood pellets:', error);
+                });
+        },
+        addWoodPellet() {
+            axios.post('https://restwoodpellets2024.azurewebsites.net/api/woodpellet', this.newWoodPellet)
+                .then(response => {
+                    this.woodPellets.push(response.data);
+                    this.newWoodPellet = 
+                    { 
+                        id: 0, 
+                        brand: '', 
+                        price: 0, 
+                        quantity: 0 
+                    }; // Reset form
+                })
+                .catch(error => {
+                    console.error('Error adding wood pellet:', error);
+                });
+        },
+        deleteWoodPellet(id) {
+            axios.delete('https://restwoodpellets2024.azurewebsites.net/api/woodpellet/${id}')
+                .then(response => {
+                    this.woodPellets = this.woodPellets.filter(pellet => pellet.id !== id);
+                })
+                .catch(error => {
+                    console.error('Error deleting wood pellet:', error);
+                });
+        }
+    }
+}).$mount('#app');

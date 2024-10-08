@@ -1,13 +1,33 @@
-new Vue({
-    el: '#app',
-    data: {
-        woodPellets: [],
-        newWoodPellet: {
-            id: 0,
-            brand: '',
-            price: 0,
-            quantity: 0
+const TextComponent = Vue.createApp({
+    data() {
+        return {
+            messages: [],
+            welcomeMessage: 'Hello, World!',
+            inputText: '',
+            repeatCount: 1
+        };
+    },
+    methods: {
+        repeatText() {
+            this.messages = [];
+            for (let i = 0; i < this.repeatCount; i++) {
+                this.messages.push(this.inputText);
+            }
         }
+    }
+}).mount('#TextComponent');
+
+const WoodpelletComponent = Vue.createApp({
+    data() {
+        return {
+            woodPellets: [],
+            newWoodPellet: {
+                id: 0,
+                brand: '',
+                price: 0,
+                quantity: 0
+            }
+        };
     },
     created() {
         this.getWoodPellets();
@@ -42,4 +62,4 @@ new Vue({
                 });
         }
     }
-});
+}).mount('#WoodpelletComponent');
