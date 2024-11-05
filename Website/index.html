@@ -44,15 +44,15 @@
             <input type="number" v-model="newWoodPellet.price" class="form-control" id="price" required>
         </div>
         <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <input type="number" v-model="newWoodPellet.quantity" class="form-control" id="quantity" required>
+            <label for="quality" class="form-label">quality</label>
+            <input type="number" v-model="newWoodPellet.quality" class="form-control" id="quality" required>
         </div>
         <button type="submit" class="btn btn-primary">Add Wood Pellet</button>
     </form>
     <!-- Display Wood Pellets -->
     <ul class="list-group">
         <li v-for="woodPellet in woodPellets" :key="woodPellet.id" class="list-group-item d-flex justify-content-between align-items-center">
-            <p>{{ woodPellet.brand }} - {{ woodPellet.price }} (Qty: {{ woodPellet.quantity }})</p>
+            <p>{{ woodPellet.brand }} - {{ woodPellet.price }} (Qty: {{ woodPellet.quality }})</p>
             <button class="btn btn-danger" @click="deleteWoodPellet(woodPellet.id)">Delete</button>
         </li>
     </ul>

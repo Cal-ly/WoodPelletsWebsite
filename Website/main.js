@@ -25,7 +25,7 @@ const WoodpelletComponent = Vue.createApp({
                 id: 0,
                 brand: '',
                 price: 0,
-                quantity: 0
+                quality: 0
             }
         };
     },
@@ -46,7 +46,7 @@ const WoodpelletComponent = Vue.createApp({
             axios.post('https://restwoodpellets2024.azurewebsites.net/api/woodpellet', this.newWoodPellet)
                 .then(response => {
                     this.woodPellets.push(response.data);
-                    this.newWoodPellet = { id: 0, brand: '', price: 0, quantity: 0 }; // Reset form
+                    this.newWoodPellet = { id: 0, brand: '', price: 0, quality: 0 }; // Reset form
                 })
                 .catch(error => {
                     console.error('Error adding wood pellet:', error);
